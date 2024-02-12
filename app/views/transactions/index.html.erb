@@ -22,13 +22,15 @@
 <!-- Step 2: Calculate and display the balances -->
 
 <p>
-
-
+<% users.each do |user| %>
+  <% received_amount = Transaction.where(to_user_id: user.id).sum(:amount) %>
+  <% sent_amount = Transaction.where(from_user_id: user.id).sum(:amount) %>
+  <% balance = received_amount - sent_amount %>
+  <li>
+  <%= "Balance for #{user.name}: #{balance} KC" %>
+  </li>
+<% end %>
 </p>
-
-- Display the balances for each user – the expected balances are included with the starter code
-- Use a loop to iterate through each user in the `users` table – don't hard-code – assume that the users and associated data could change
-- ActiveRecord supports the SQL aggregate `SUM` function – e.g. `Transaction.where({ "to_user_id" => 123 }).sum("amount")`
 
 <!-- 
 Expected balances:
